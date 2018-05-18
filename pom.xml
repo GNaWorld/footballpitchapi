@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.pitch</groupId>
+  <artifactId>footballpitchapi</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>footballpitchapi Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+  <!-- jfinal 核心包 -->  
+    <dependency>  
+        <groupId>com.jfinal</groupId>  
+        <artifactId>jfinal</artifactId>  
+        <version>3.3</version>  
+    </dependency>  
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+     <dependency>  
+        <groupId>com.jfinal</groupId>  
+        <artifactId>jetty-server</artifactId>  
+        <version>8.1.8</version>  
+          
+            <!-- j此处的 scope 值为 compile 仅为支持 IDEA 下启动项目  
+            打 war 包时需要改成 provided，以免将一些无用的 jar 打进去   -->
+          
+        <scope>compile</scope>  
+    </dependency>  
+  </dependencies>
+  <build>
+    <finalName>footballpitchapi</finalName>
+  </build>
+</project>
