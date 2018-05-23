@@ -1,3 +1,4 @@
+import com.model.Blog;
 import com.controller.api.IndexController;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -6,7 +7,10 @@ import com.jfinal.config.JFinalConfig;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.core.JFinal;
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
+import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.template.Engine;
 
 public class MainConfig extends JFinalConfig{
@@ -54,7 +58,24 @@ public class MainConfig extends JFinalConfig{
 	@Override
 	public void configPlugin(Plugins me) {
 		// TODO Auto-generated method stub
-		
+		//阿里巴巴数据库连接池——为了使用model必配的东西
+		DruidPlugin druidPlugin = new DruidPlugin(PropKit.get("jdbcUrl"), PropKit.get("user"),
+				PropKit.get("password").trim());
+		me.add(druidPlugin);
+		// 配置ActiveRecord插件——数据库连接池，并且让他启动
+		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
+		//设置sql文件的起始文件夹
+//		arp.setBaseSqlTemplatePath(PathKit.getWebRootPath() + "/WEB-INF");
+		/*
+		 * 设置了 sql 文件存放的基础路径，注意上例代 码将基础路径设置为了 classpath 的根，
+		 * 可以将 sql 文件放在 maven 项目下的 resources 之下， 编译器会自动将其编译至 classpath 之下，
+		 * 该路径可按喜好自由设置
+		 */
+		arp.setBaseSqlTemplatePath(PathKit.getWebRootPath());
+//		arp.addSqlTemplate("/demo.sql");
+		arp.addMapping("t_blog", Blog.class);
+		// 所有映射在 MappingKit 中自动化搞定 
+		me.add(arp);		
 	}
 
 	/**
@@ -95,7 +116,9 @@ public class MainConfig extends JFinalConfig{
 		/**
 		 * 特别注意：Eclipse 之下建议的启动方式
 		 */
-		JFinal.start("src/main/webapp", 8080, "/", 5);
+//		JFinal.start("src/main/webapp", 8080, "/", 5);
+		//链接数据库，最新版的eclipse
+		JFinal.start("src/main/webapp", 8080, "/");
 		/**
 		 * 特别注意：IDEA 之下建议的启动方式，仅比 eclipse 之下少了最后一个参数
 		 */
