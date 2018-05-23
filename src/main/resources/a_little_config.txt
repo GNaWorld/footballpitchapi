@@ -1,15 +1,4 @@
-jdbcUrl = jdbc:mysql://116.62.164.48/sst?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
-user = hlzs
-password =hlzs123456
+jdbcUrl = jdbc:mysql://localhost:3306/corperation?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+user = root
+password = 123456
 devMode = true
-
-
-redis.host=127.0.0.1
-redis.port=10043
-
-sdzs.api=http://139.129.96.106:8081/tfkz/logreg/ValidateUser
-
-#dzfp.hl.api=http://124.205.255.18:28500/api  #ceshi
-dzfp.hl.api=http://211.151.124.79:8500/api 
-
-dzfp.smkp.url=http://holytaxzhfw.chinab2bi.com/invociex_wx/jssdk/smkp
