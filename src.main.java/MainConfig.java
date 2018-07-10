@@ -1,4 +1,5 @@
 import com.model.Blog;
+import com.controller.api.AuthController;
 import com.controller.api.IndexController;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -7,9 +8,12 @@ import com.jfinal.config.JFinalConfig;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.core.JFinal;
+import com.jfinal.ext.route.AutoBindRoutes;
 import com.jfinal.kit.PathKit;
+import com.jfinal.kit.Prop;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.template.Engine;
 
@@ -40,7 +44,11 @@ public class MainConfig extends JFinalConfig{
 	@Override
 	public void configRoute(Routes me) {
 		// TODO Auto-generated method stub
-		me.add("/", IndexController.class);
+//		me.add("/", IndexController.class);
+//		me.add("/", AuthController.class);
+		AutoBindRoutes abr = new AutoBindRoutes();
+		abr.autoScan(false);
+		me.add(abr);
 	}
 
 	/**
@@ -58,24 +66,45 @@ public class MainConfig extends JFinalConfig{
 	@Override
 	public void configPlugin(Plugins me) {
 		// TODO Auto-generated method stub
+//		Prop p = PropKit.use("a_little_config.txt");
+		//
+//		C3p0Plugin c3p0Plugin = new C3p0Plugin(p.get("jdbcUrl"), p.get("user"), p.get("password"));
+		 
 		//阿里巴巴数据库连接池——为了使用model必配的东西
 		DruidPlugin druidPlugin = new DruidPlugin(PropKit.get("jdbcUrl"), PropKit.get("user"),
 				PropKit.get("password").trim());
 		me.add(druidPlugin);
-		// 配置ActiveRecord插件——数据库连接池，并且让他启动
+		
+		//视频
+		//配置ActiveRecord插件,与数据库交互作用
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
-		//设置sql文件的起始文件夹
-//		arp.setBaseSqlTemplatePath(PathKit.getWebRootPath() + "/WEB-INF");
-		/*
-		 * 设置了 sql 文件存放的基础路径，注意上例代 码将基础路径设置为了 classpath 的根，
-		 * 可以将 sql 文件放在 maven 项目下的 resources 之下， 编译器会自动将其编译至 classpath 之下，
-		 * 该路径可按喜好自由设置
-		 */
-		arp.setBaseSqlTemplatePath(PathKit.getWebRootPath());
-//		arp.addSqlTemplate("/demo.sql");
-		arp.addMapping("t_blog", Blog.class);
-		// 所有映射在 MappingKit 中自动化搞定 
-		me.add(arp);		
+		System.out.println("11111 ---- " + PathKit.getWebRootPath());
+		arp.setBaseSqlTemplatePath(PathKit.getWebRootPath() + "/WEB-INF");
+		arp.addSqlTemplate("/sql/demo.sql");
+		arp.addMapping("t_blog", Blog.class);//数据库映射，需要在加入PluginList之前完成配置，必须先做好
+		me.add(arp);
+		
+		// 配置ActiveRecord插件
+//				ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
+//				// 所有映射在 MappingKit 中自动化搞定
+////				_MappingKit.mapping(arp);
+//				arp.addMapping(tableName, modelClass)
+//				me.add(arp);
+		
+		// 配置ActiveRecord插件——数据库连接池，并且让他启动
+//		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
+//		//设置sql文件的起始文件夹
+////		arp.setBaseSqlTemplatePath(PathKit.getWebRootPath() + "/WEB-INF");
+//		/*
+//		 * 设置了 sql 文件存放的基础路径，注意上例代 码将基础路径设置为了 classpath 的根，
+//		 * 可以将 sql 文件放在 maven 项目下的 resources 之下， 编译器会自动将其编译至 classpath 之下，
+//		 * 该路径可按喜好自由设置
+//		 */
+//		arp.setBaseSqlTemplatePath(PathKit.getWebRootPath());
+////		arp.addSqlTemplate("/demo.sql");
+//		arp.addMapping("t_blog", Blog.class);
+//		// 所有映射在 MappingKit 中自动化搞定 
+//		me.add(arp);		
 	}
 
 	/**

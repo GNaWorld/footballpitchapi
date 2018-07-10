@@ -42,6 +42,16 @@
         <artifactId>mysql-connector-java</artifactId>  
         <version>5.1.20</version>  
     </dependency> 
+    <dependency>
+		<groupId>org.apache.shiro</groupId>
+		<artifactId>shiro-all</artifactId>
+		<version>1.2.4</version>
+	</dependency>
+	<dependency>
+		<groupId>com.google.guava</groupId>
+		<artifactId>guava</artifactId>
+		<version>16.0.1</version>
+	</dependency>
   </dependencies>
   <build>
     <finalName>footballpitchapi</finalName>
