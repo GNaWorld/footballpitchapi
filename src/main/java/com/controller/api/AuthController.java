@@ -6,17 +6,54 @@ import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 
+import com.alibaba.fastjson.JSONObject;
 import com.common.controller.BaseController;
+import com.common.plugins.xmlsql.sqlparse.SqlParam;
+import com.common.ret.ReqResult;
 import com.jfinal.ext.route.ControllerBind;
+import com.model.User;
 
 @ControllerBind(controllerKey = "/auth", viewPath = "/auth")
 public class AuthController extends BaseController
 {
+	/**
+	 * 注册
+	 */
+	public void doRegister() 
+	{
+		String loginName = getPara("login_name");
+		String loginPwd = getPara("login_pwd");
+		
+//		User user = new User();
+//		user.setLoginName(loginName);
+//		user.setLoginPwd(loginPwd);
+//		user.save();
+		
+		//发送成功，前端用axios接受数据
+//		JSONObject json = new JSONObject();
+//		json.put("gna", "success");
+//		renderJson(json);
+		
+//		renderData("ssssss");
+//		renderJson("141");
+//		JSONObject json = new JSONObject();
+//		json.put("gna", "success");
+////		renderJson(json);
+//		renderData(json);
+//		renderData(new TestReq(1, "55", null));
+		renderSuccess();
+//		renderJson(ReqResult.COMMON_SUCCESS.setData("141"));
+		
+//		renderText("5555");
+	}
 	//http://localhost:8080/auth/doLogin?login_name=gna&login_pwd=111
 	public void doLogin() {
 //		renderNull();
+		
 		String loginName = getPara("login_name");
 		String loginPwd = getPara("login_pwd");
+		
+		User sbuser = User.dao.findFirstEx("getUserByLoginName", SqlParam.Init("login_name", loginName));
 		
 //		Blog blog = new Blog();
 //		blog.set("name", loginName);

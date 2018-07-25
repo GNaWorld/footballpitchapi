@@ -1,10 +1,10 @@
 package com.common.ret;
 
-import java.io.Serializable;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 
-public class ReqResult implements Serializable
+public class ReqResult
 {
-	private static final long serialVersionUID = -2974719921585501934L;
 
     public static ReqResult POST_PARAM_ERROR = new ReqResult(400, "´íÎóµÄ²ÎÊý", null);
 
@@ -30,11 +30,36 @@ public class ReqResult implements Serializable
         this.data = data;
     }
     
+    public Integer getCode() {
+        return code;
+    }
+    
+    public ReqResult setCode(Integer code) {
+        this.code = code;
+        return this;
+    }
+    
+    public Object getData() {
+        return data;
+    }
+    
     public ReqResult setData(Object data) {
         return new ReqResult(this.code, this.message, data);
     }
     
+    public String getMessage() {
+        return message;
+    }
+    
     public String setMsg(String msg) {
         return new ReqResult(this.code, msg, data).toString();
+    }
+    
+    @Override
+    public String toString() {
+        String ret = JSONObject.toJSONString(this,
+                SerializerFeature.WriteNullStringAsEmpty);
+        System.out.println(ret);
+        return ret;
     }
 }

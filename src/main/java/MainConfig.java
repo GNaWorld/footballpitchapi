@@ -1,3 +1,5 @@
+import com.common.plugins.xmlsql.SqlDbPlugin;
+import com.common.plugins.xmlsql.SqlXmlPlugin;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -11,6 +13,7 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.template.Engine;
+import com.model._MappingKit;
 
 public class MainConfig extends JFinalConfig{
 
@@ -73,11 +76,20 @@ public class MainConfig extends JFinalConfig{
 		//视频
 		//配置ActiveRecord插件,与数据库交互作用
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
-		System.out.println("11111 ---- " + PathKit.getWebRootPath());
-		arp.setBaseSqlTemplatePath(PathKit.getWebRootPath() + "/WEB-INF");
+//		System.out.println("11111 ---- " + PathKit.getWebRootPath());
+		_MappingKit.mapping(arp);
+		me.add(arp);
+		
+		SqlXmlPlugin xmlsql = new SqlXmlPlugin();
+		me.add(xmlsql);
+
+		SqlDbPlugin dbsql = new SqlDbPlugin();
+		me.add(dbsql);
+		
+//		arp.setBaseSqlTemplatePath(PathKit.getWebRootPath() + "/WEB-INF");
 //		arp.addSqlTemplate("/sql/demo.sql");
 //		arp.addMapping("t_blog", Blog.class);//数据库映射，需要在加入PluginList之前完成配置，必须先做好
-		me.add(arp);
+//		me.add(arp);
 		
 		// 配置ActiveRecord插件
 //				ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);

@@ -8,6 +8,16 @@
   <name>footballpitchapi Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
+  	<dependency>
+  		<groupId>dom4j</groupId>
+		<artifactId>dom4j</artifactId>
+		<version>1.6.1</version>
+  	</dependency>
+  	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>fastjson</artifactId>
+		<version>1.2.41</version>
+	</dependency>
   <!-- jfinal 核心包 -->  
     <dependency>  
         <groupId>com.jfinal</groupId>  
@@ -51,11 +61,6 @@
 		<groupId>com.google.guava</groupId>
 		<artifactId>guava</artifactId>
 		<version>16.0.1</version>
-	</dependency>
-	<dependency>
-		<groupId>dom4j</groupId>
-		<artifactId>dom4j</artifactId>
-		<version>1.6.1</version>
 	</dependency>
   </dependencies>
   <build>
