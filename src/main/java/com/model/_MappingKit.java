@@ -16,6 +16,7 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 public class _MappingKit {
 	
 	public static void mapping(ActiveRecordPlugin arp) {
+		arp.addMapping("sys_log", "id", SysLog.class);
 		arp.addMapping("sys_sql", "id", SysSql.class);
 		arp.addMapping("t_blog", "id", TBlog.class);
 		arp.addMapping("user", "id", User.class);

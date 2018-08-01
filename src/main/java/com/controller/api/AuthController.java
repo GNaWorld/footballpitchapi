@@ -1,15 +1,18 @@
 package com.controller.api;
 
+import java.util.List;
 import java.util.UnknownFormatFlagsException;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.subject.Subject;
 
-import com.alibaba.fastjson.JSONObject;
 import com.common.controller.BaseController;
+import com.common.date.DateUtils;
 import com.common.plugins.xmlsql.sqlparse.SqlParam;
-import com.common.ret.ReqResult;
+import com.common.shiro.auth.UsernamePasswordTokenEx;
 import com.jfinal.ext.route.ControllerBind;
 import com.model.User;
 
@@ -24,6 +27,15 @@ public class AuthController extends BaseController
 		String loginName = getPara("login_name");
 		String loginPwd = getPara("login_pwd");
 		
+		//判断用户名是否存在
+		//是-
+		//否-
+		List<User> user = User.dao.findEx("getUserByLoginName");
+		if (user == null) {
+			
+		} else {
+			
+		}
 //		User user = new User();
 //		user.setLoginName(loginName);
 //		user.setLoginPwd(loginPwd);
@@ -41,6 +53,7 @@ public class AuthController extends BaseController
 ////		renderJson(json);
 //		renderData(json);
 //		renderData(new TestReq(1, "55", null));
+		
 		renderSuccess();
 //		renderJson(ReqResult.COMMON_SUCCESS.setData("141"));
 		
@@ -48,22 +61,34 @@ public class AuthController extends BaseController
 	}
 	//http://localhost:8080/auth/doLogin?login_name=gna&login_pwd=111
 	public void doLogin() {
-//		renderNull();
-		
+		//api自动获取
+//		String loginName = getAttrForStr("login_name");
+		//重写了getPara
 		String loginName = getPara("login_name");
 		String loginPwd = getPara("login_pwd");
 		
-		User sbuser = User.dao.findFirstEx("getUserByLoginName", SqlParam.Init("login_name", loginName));
+//		Subject currentUser = SecurityUtils.getSubject();
+//		UsernamePasswordTokenEx token = new UsernamePasswordTokenEx(loginName, loginPwd);
 		
-//		Blog blog = new Blog();
-//		blog.set("name", loginName);
-//		blog.set("desc", loginPwd);
-//		blog.save();
-		
-		String msg = "";
+		String msg = "-1";
 		try {
-//			renderData("success");
-			renderText("5555");
+//			currentUser.login(token);
+//			User user = getCurrentUser();
+//			user.setLastLoginTime(DateUtils.now());
+//			user.update();
+//			select * from sb_user where sbbh = '$sbbh$' and nsrsbh = '$nsrsbh$'
+			List<User> user = User.dao.findEx("getUserByLoginName");
+			for (User item : user) {
+				System.out.println("1111111 ----- " + item.getLoginName());
+				if (item.getLoginName().equals(loginName) && item.getLoginPwd().equals(loginPwd)) {
+					msg = "1";
+					break;
+				} else if (item.getLoginName().equals(loginName) && !item.getLoginPwd().equals(loginPwd)) {
+					msg = "2";
+					break;
+				}
+			}
+			renderData(msg);
 			return;
 		} catch (UnknownFormatFlagsException uae) {
 			msg = "用户名不存在";
@@ -78,6 +103,6 @@ public class AuthController extends BaseController
 		renderError(msg);
 	}
 	public void test() {
-		renderText("AuthController接口");
+		renderText("AuthController接口测试");
 	}
 }

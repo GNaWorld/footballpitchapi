@@ -14,8 +14,7 @@ public class ReqResult
 
     public static ReqResult COMMON_ERROR = new ReqResult(400, "失败", null);
 
-
-    public static ReqResult   AUTH_FAILED = new ReqResult(401, "会话验证失败", null);
+    public static ReqResult AUTH_FAILED = new ReqResult(401, "会话验证失败", null);
     
     private String message;
 

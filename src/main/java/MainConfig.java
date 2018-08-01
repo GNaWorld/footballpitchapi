@@ -1,5 +1,6 @@
 import com.common.plugins.xmlsql.SqlDbPlugin;
 import com.common.plugins.xmlsql.SqlXmlPlugin;
+import com.gn.interceptor.GlobalRequestInterceptor;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -86,6 +87,11 @@ public class MainConfig extends JFinalConfig{
 		SqlDbPlugin dbsql = new SqlDbPlugin();
 		me.add(dbsql);
 		
+//		ShiroPlugin shiroPlugin = new ShiroPlugin(engine);
+//		shiroPlugin.setLoginUrl("/login");
+//		shiroPlugin.setUnauthorizedUrl("/auth");
+//		me.add(shiroPlugin);
+		
 //		arp.setBaseSqlTemplatePath(PathKit.getWebRootPath() + "/WEB-INF");
 //		arp.addSqlTemplate("/sql/demo.sql");
 //		arp.addMapping("t_blog", Blog.class);//数据库映射，需要在加入PluginList之前完成配置，必须先做好
@@ -120,7 +126,7 @@ public class MainConfig extends JFinalConfig{
 	@Override
 	public void configInterceptor(Interceptors me) {
 		// TODO Auto-generated method stub
-		
+		me.addGlobalActionInterceptor(new GlobalRequestInterceptor());
 	}
 
 	/**

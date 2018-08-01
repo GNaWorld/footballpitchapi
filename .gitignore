@@ -4,3 +4,4 @@
 .git
 .classpath
 jfinal_demo_for_maven.log*
+*.log
